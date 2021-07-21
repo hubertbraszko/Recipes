@@ -1,0 +1,11 @@
+Topics/
+/.gradle/
+course-info.yaml
+course-remote-info.yaml
+/Recipes/*
+!/Recipes/task
+/Recipes/task/*
+!/Recipes/task/src
+!/Recipes/task/resources
+/.idea/
+
