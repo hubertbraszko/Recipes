@@ -3,41 +3,50 @@ package recipes;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.*;
 import org.springframework.web.server.ResponseStatusException;
 
 
-import java.util.HashMap;
+import javax.validation.Valid;
+import java.time.LocalDateTime;
+
 
 @RestController
 public class RecipeController {
 
-    private static HashMap<Integer,Recipe> recipes;
-    private static int latestID ;
+    private final RecipeService recipeService;
 
-    static {
-        recipes = new HashMap<>();
-        latestID = 1;
+
+
+    @Autowired
+    public RecipeController(RecipeService recipeService){
+        this.recipeService = recipeService;
     }
 
     @PostMapping("/api/recipe/new")
-    public String addRecipe(@RequestBody Recipe recipe) {
-        //this.recipe = recipe;
-        recipes.put(latestID,recipe);
+    public String addRecipe(@Valid @RequestBody Recipe recipe) {
+        //System.out.println(LocalDateTime.now());
+        recipe.setDate(LocalDateTime.now());
+        Recipe newRecipe = recipeService.save(recipe);
 
         JsonObject json = new JsonObject();
-        json.addProperty("id", latestID++);
+        json.addProperty("id", newRecipe.getId());
         return json.toString();
     }
 
     @GetMapping("/api/recipe/{id}")
-    public Recipe getRecipe(@PathVariable int id) {
-        if(recipes.getOrDefault(id,null) == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe Not Found");
-        }
-        return recipes.get(id);
+    public Recipe getRecipe(@PathVariable long id) {
+
+        return recipeService.findRecipeById(id);
+    }
+
+    @DeleteMapping("/api/recipe/{id}")
+    public void deleteRecipe(@PathVariable Long id) {
+        recipeService.deleteRecipeById(id);
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
 }

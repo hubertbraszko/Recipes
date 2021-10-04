@@ -1,20 +1,60 @@
 package recipes;
 
 
-import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(name = "recipe")
 public class Recipe {
-    String name;
-    String description;
-    String[] ingredients;
-    String[] directions;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
+    private Long id;
+
+    @NotNull
+    @NotBlank(message = "Name is mandatory")
+    private String name;
+
+    @NotNull
+    @NotBlank(message = "category is mandatory")
+    private String category;
+
+
+    private LocalDateTime date;
+
+    @NotNull
+    @NotBlank(message = "description is mandatory")
+    private String description;
+
+    @NotNull
+    @Size(min = 1, message = "Minimal size should be 1")
+    @ElementCollection
+    private List<String> ingredients;
+
+    @NotNull
+    @Size(min = 1, message = "Minimal size should be 1")
+    @ElementCollection
+    private List<String> directions;
 
 
     public Recipe() {
     }
 
-    public Recipe(String name, String description, String[] ingredients, String[] directions) {
+    public Recipe(String name, String category, String description, List<String> ingredients, List<String> directions) {
         this.name = name;
+        this.category = category;
         this.description = description;
         this.ingredients = ingredients;
         this.directions = directions;
@@ -28,6 +68,30 @@ public class Recipe {
                 ", ingredients='" + ingredients + '\'' +
                 ", directions='" + directions + '\'' +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -46,19 +110,19 @@ public class Recipe {
         this.description = description;
     }
 
-    public String[] getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(String[] ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public String[] getDirections() {
+    public List<String> getDirections() {
         return directions;
     }
 
-    public void setDirections(String[] directions) {
+    public void setDirections(List<String> directions) {
         this.directions = directions;
     }
 
