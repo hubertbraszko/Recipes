@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,26 +28,33 @@ public class RecipeController {
     }
 
     @PostMapping("/api/recipe/new")
-    public String addRecipe(@Valid @RequestBody Recipe recipe) {
-        //System.out.println(LocalDateTime.now());
-        recipe.setDate(LocalDateTime.now());
+    public ResponseEntity<String> addRecipe(@Valid @RequestBody Recipe recipe) {
+
         Recipe newRecipe = recipeService.save(recipe);
 
         JsonObject json = new JsonObject();
         json.addProperty("id", newRecipe.getId());
-        return json.toString();
+        return ResponseEntity.ok(json.toString());
     }
 
     @GetMapping("/api/recipe/{id}")
-    public Recipe getRecipe(@PathVariable long id) {
+    public ResponseEntity<Recipe> getRecipe(@PathVariable long id) {
 
-        return recipeService.findRecipeById(id);
+        Recipe recipe = recipeService.findRecipeById(id);
+        return ResponseEntity.ok(recipe);
     }
 
     @DeleteMapping("/api/recipe/{id}")
-    public void deleteRecipe(@PathVariable Long id) {
+    public ResponseEntity<String> deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipeById(id);
-        throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+       // throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/api/recipe/{id}")
+    public ResponseEntity<Recipe> updateRecipe(@PathVariable Long id, @Valid @RequestBody Recipe updatedRecipe){
+        recipeService.updateRecipe(id,updatedRecipe);
+        return ResponseEntity.noContent().build();
     }
 
 }

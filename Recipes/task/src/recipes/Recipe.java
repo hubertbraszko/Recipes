@@ -2,9 +2,10 @@ package recipes;
 
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
+
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,7 +32,8 @@ public class Recipe {
     @NotBlank(message = "category is mandatory")
     private String category;
 
-
+    @CreationTimestamp
+    @JsonFormat(pattern = "dd.MM.YYYY HH:mm:ss.SSSSSS")
     private LocalDateTime date;
 
     @NotNull
