@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RecipeService {
@@ -42,5 +43,13 @@ public class RecipeService {
     public void deleteRecipeById(Long id) {
         Recipe recipe = findRecipeById(id);
         recipeRepository.delete(recipe);
+    }
+
+    public List<Recipe> findByCategory(String category) {
+        return recipeRepository.findByCategoryIgnoreCaseOrderByDateDesc(category);
+    }
+
+    public List<Recipe> findByName(String name) {
+        return recipeRepository.findByNameContainingIgnoreCaseOrderByDateDesc(name);
     }
 }

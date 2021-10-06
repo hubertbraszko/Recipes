@@ -13,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -56,6 +58,23 @@ public class RecipeController {
         recipeService.updateRecipe(id,updatedRecipe);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/api/recipe/search/")
+    public ResponseEntity<List<Recipe>> searchRecipes(@RequestParam Optional<String> category, @RequestParam Optional<String> name) {
+        if(category.isPresent() && name.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if(category.isPresent()) {
+            return ResponseEntity.ok(recipeService.findByCategory(category.get()));
+        } else if(name.isPresent()) {
+            return ResponseEntity.ok(recipeService.findByName(name.get()));
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+
 
 }
 
