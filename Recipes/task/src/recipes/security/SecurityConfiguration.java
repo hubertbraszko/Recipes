@@ -15,18 +15,19 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("user1").password(getEncoder().encode("pass1")).roles()
+                .withUser("user1").password(passwordEncoder().encode("pass1")).roles()
                 .and()
-                .withUser("user2").password(getEncoder().encode("pass2")).roles("USER")
+                .withUser("user2").password(passwordEncoder().encode("pass2")).roles("USER")
                 .and()
-                .withUser("user3").password(getEncoder().encode("pass3")).roles("ADMIN")
+                .withUser("user3").password(passwordEncoder().encode("pass3")).roles("ADMIN")
                 .and()
-                .passwordEncoder(getEncoder());
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .mvcMatchers("/api/register").permitAll()
                 .mvcMatchers("/**").hasRole("ADMIN")
                 .mvcMatchers(HttpMethod.POST, "/api/recipe/new").authenticated()
                 .mvcMatchers(HttpMethod.GET ,"/api/recipe/*").permitAll()
@@ -34,7 +35,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder getEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
