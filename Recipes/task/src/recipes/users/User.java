@@ -1,4 +1,4 @@
-package users;
+package recipes.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
