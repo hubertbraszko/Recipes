@@ -29,8 +29,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .mvcMatchers("/api/register").permitAll()
                 .mvcMatchers("/**").hasRole("ADMIN")
-                .mvcMatchers(HttpMethod.POST, "/api/recipe/new").authenticated()
-                .mvcMatchers(HttpMethod.GET ,"/api/recipe/*").permitAll()
+                .mvcMatchers( "/api/recipe/**").authenticated()
                 .and().httpBasic().and().formLogin().and().csrf().disable().headers().frameOptions().disable();
     }
 

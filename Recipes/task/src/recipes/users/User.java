@@ -3,6 +3,7 @@ package recipes.users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,6 +20,7 @@ public class User {
 
     @NotNull
     @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email is not valid", regexp = ".*@.*\\..+")
     private String email;
 
 
@@ -26,6 +28,7 @@ public class User {
     @Size(min = 8, message = "Password should be at least 8 characters long")
     @NotBlank(message = "password cannot be blank")
     private String password;
+
 
 
     private String role;

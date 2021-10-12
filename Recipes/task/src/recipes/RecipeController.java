@@ -49,7 +49,7 @@ public class RecipeController {
     @DeleteMapping("/api/recipe/{id}")
     public ResponseEntity<String> deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipeById(id);
-       // throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+
         return ResponseEntity.noContent().build();
     }
 
