@@ -1,12 +1,14 @@
 package recipes.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import recipes.Recipe;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 
 @Entity
@@ -29,7 +31,8 @@ public class User {
     @NotBlank(message = "password cannot be blank")
     private String password;
 
-
+    @ElementCollection
+    private List<Recipe> recipes;
 
     private String role;
 
