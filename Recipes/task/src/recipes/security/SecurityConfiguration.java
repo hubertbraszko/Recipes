@@ -35,7 +35,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers("/api/register").permitAll()
-               // .mvcMatchers("/actuator/shutdown").permitAll() //for testing purposes
+                .mvcMatchers("/actuator/shutdown").permitAll()
                 .mvcMatchers( "/api/recipe/**").authenticated()
                 .mvcMatchers("/**").hasRole("ADMIN")
                 .and().httpBasic().and().formLogin().and().csrf().disable().headers().frameOptions().disable();

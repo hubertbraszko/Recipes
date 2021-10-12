@@ -36,6 +36,18 @@ public class User {
 
     private String role;
 
+    public void assignRecipe(Recipe recipe) {
+        recipes.add(recipe);
+    }
+
+    public boolean hasRecipe(Recipe recipe) {
+        return recipes.contains(recipe);
+    }
+
+    public void removeRecipe(Recipe recipe) {
+        recipes.remove(recipe);
+    }
+
     public Long getId() {
         return id;
     }
