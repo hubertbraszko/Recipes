@@ -8,5 +8,6 @@ course-remote-info.yaml
 !/Recipes/task/src
 !/Recipes/task/resources
 !/Recipes/task/build.gradle
+/util/
 /.idea/
 

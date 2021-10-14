@@ -7,6 +7,7 @@ plugins {
 }
 
 sourceCompatibility = 11
+mainClassName = 'recipes.RecipesApplication'
 
 repositories {
     mavenCentral()
